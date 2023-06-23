@@ -83,5 +83,9 @@ export class AppComponent {
   getDiscountAmount(item: any) {
     return getDiscountAmount(item.netPrice, item.discount) * item.quantity;
   }
+
+  updateQuantity(item: any, quantity: number) {
+    item.quantity = quantity;
+  }
 }
 
