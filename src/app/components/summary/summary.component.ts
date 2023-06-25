@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { getDiscountedPrice, getFinalPrice, getTransportFee, getVatAmount } from 'src/cart-utils';
+import { getDiscountedPrice, getFinalPrice, getTransportFee, getVatAmount } from 'src/utils/cart-utils';
 
 @Component({
   selector: 'app-summary',
