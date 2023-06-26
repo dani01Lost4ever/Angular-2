@@ -1,0 +1,17 @@
+<div class="container">
+  <div id="items-list-container">
+    <h3>I tuoi articoli</h3>
+    <ul class="list-group" id="items-list">
+      <li class="list-group-item item" *ngFor="let item of items; trackBy: trackById">
+        <app-cart-item [item]="item" [vat]="vat" (quantityChange)="updateQuantity(item, $event)"></app-cart-item>
+      </li>
+    </ul>
+  </div>
+
+  <div class="mt-5">
+    <h3>Totale ordine</h3>
+    <div class="order-summary">
+      <app-summary [items]="items" [vat]="vat"></app-summary>
+    </div>
+  </div>
+</div>
