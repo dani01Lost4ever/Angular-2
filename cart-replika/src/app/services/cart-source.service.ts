@@ -74,7 +74,7 @@ const CART = [
 
 export class CartSourceService {
   getCart() {
-    return [...CART];
+    return [...CART];  //chidere dei ...
   }
 
   private items = new BehaviorSubject<any[]>([...CART]);
@@ -93,6 +93,6 @@ export class CartSourceService {
       ...article,
       quantity
     });
-    this.items.next(clone);
+    this.items.next(clone);  //chiedere al prof metodo next()
   }
 }

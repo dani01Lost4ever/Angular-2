@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CartSourceService } from './services/cart-source.service';
-import { getDiscountAmount, getDiscountedPrice, getFinalPrice } from 'src/utils/cart-utils';
+import { VatService } from './services/vat.service';
 
 
 
@@ -10,10 +10,20 @@ import { getDiscountAmount, getDiscountedPrice, getFinalPrice } from 'src/utils/
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  region = 'IT';
   items = this.cartSource.getCart();
-  vat = 0;
+  vat = this.setVat(this.region);
 
-  constructor(private cartSource: CartSourceService) {}
+  constructor(private cartSource: CartSourceService, private vatSource: VatService) {}
+
+  setVat(region: string){
+    let v = 0;
+    this.vatSource.setCountry(region);
+    this.vatSource.vat$.subscribe(value => {
+      v = value;
+    })
+    return v;
+  }
 
 
   updateQuantity(item: any, quantity: number) {

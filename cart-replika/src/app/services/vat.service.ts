@@ -1,18 +1,24 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
+import { getVat } from 'src/utils/cart-utils';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class VatService {
-  vat$ = new ReplaySubject<number>();
+  private vat = new ReplaySubject<number>();
+  vat$ = this.vat.asObservable();
+  
 
   constructor() {
-    this.vat$.next(0);
+    this.vat.next(0);
   }
 
   setCountry(countryCode: string) {
-    const value = countryCode === 'IT' ? 0.22 : 0;
-    this.vat$.next(value);
+    const value = getVat(countryCode);
+    //return value;
+    this.vat.next(value);
   }
+
 }
