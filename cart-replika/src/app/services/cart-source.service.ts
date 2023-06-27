@@ -77,6 +77,7 @@ export class CartSourceService {
     return [...CART];
   }
 
+  /*
   private items = new BehaviorSubject<any[]>([...CART]);
   items$ = this.items.asObservable();
 
@@ -95,4 +96,5 @@ export class CartSourceService {
     });
     this.items.next(clone);
   }
+  */
 }
