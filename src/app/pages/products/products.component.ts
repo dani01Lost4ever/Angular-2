@@ -5,7 +5,7 @@ import { Product } from '../../interfaces/product';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Subject, catchError, filter, map, of, startWith, switchMap, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { omitBy } from 'lodash';
+import { omitBy, pick } from 'lodash';
 
 
 @Component({
@@ -15,9 +15,14 @@ import { omitBy } from 'lodash';
 })
 export class ProductsComponent {
 
+  currentPage = 1;
+  itemsPerPage = 25;
+
 
   private applyFilters$= new Subject<ProductFilters>();
-  filters$=this.activatedRoute.queryParams;
+  filters$=this.activatedRoute.queryParams.pipe(
+    map(params => pick(params, ['name','minPrice','maxPrice'])),
+  );
   products$= this.filters$.pipe(startWith({}),switchMap(filters=> {return this.productSrv.list(filters).pipe(catchError(err=>of([])))}));
 
   private destryed$= new Subject<void>();
