@@ -6,7 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { CartItemComponent } from './components/cart-item/cart-item.component';
 import { SummaryComponent } from './components/summary/summary.component';
-
+import { HttpClientModule } from '@angular/common/http';
 import { DiscountAmountPipe } from './pipes/discount-amount.pipe';
 import { CurrencyPipe, registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
@@ -23,7 +23,8 @@ registerLocaleData(localeIt);
   imports: [
     BrowserModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
   ],
   providers: [
    { provide: LOCALE_ID, useValue: 'it-IT' },
