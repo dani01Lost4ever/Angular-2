@@ -3,7 +3,7 @@ export function getVat(countryCode: string) {
 }
 
 export function getDiscountAmount(price: number, discount: number) {
-  return price * discount / 100;
+  return price * discount ;
 }
 
 export function getDiscountedPrice(price: number, discount: number) {

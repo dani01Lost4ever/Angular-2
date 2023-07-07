@@ -1,0 +1,38 @@
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,0,200" />
+</head>
+<div class="container-fluid mt-5">
+  <div class="row">
+    <div class="col">
+        <app-product-filters [filters]="(filters$ | async)??{}" (filtersChange)="filtersChanged($event)"></app-product-filters>
+      <br/>
+      <hr class="style-seven"/>
+      <div class="row row-cols-1 row-cols-md-4 g-6 mt-5">
+        <div class="col" *ngFor="let product of products$ |async">
+          <div class="card mt-2">
+            <div class="card-body">
+              <h5 class="card-title">{{product.name}}</h5>
+              <h6 class="card-subtitle mb-2 text-muted"><del>{{product.netPrice | currency}}</del> -{{(product.discount*100).toFixed(0)}}% {{getDiscoutedPrice(product) | currency}}</h6>
+              <p class="card-text">{{product.description}}</p>
+              <a href="#" class="btn btn-link">details</a>
+            </div>
+            <div class="input-group mb-3" style="padding: 20px;">
+              <input type="number" class="form-control" placeholder="Quantity" aria-label="Recipient's username" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button type="button" class="btn btn-outline-dark buttonAdd">
+                  <span class="material-symbols-outlined">
+                      add_shopping_cart
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col side-cart">
+      side cart
+    </div>
+  </div>
+
+</div>
