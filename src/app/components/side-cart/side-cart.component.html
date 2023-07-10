@@ -1,24 +1,38 @@
 <head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@120,700,0,200" />
 </head>
-<div *ngFor="let CartItem of cartItems$ | async">
-  <div class="card mt-2">
-    <div class="card-body d-flex justify-content-between">
-      <div class="left">
-        <h5 class="card-title">{{CartItem.product.name}}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">x{{CartItem.quantity}} Total: {{getPrice(CartItem.product, CartItem.quantity).toFixed(2) | currency}}</h6>
+<div *ngIf="(cartItems$ | async)?.length; else emptyCart">
+  <button type="button" class="btn btn-success" style="width: 100%;" (click)="goToCheckout()">Checkout</button>
+  <div *ngFor="let CartItem of cartItems$ | async">
+    <div class="card mt-2">
+      <div class="card-body d-flex justify-content-between">
+        <div class="left">
+          <h5 class="card-title">{{CartItem.product.name}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">x{{CartItem.quantity}} Total: {{getPrice(CartItem.product, CartItem.quantity).toFixed(2) | currency}}</h6>
+        </div>
+        <div class="right">
+          <button class="btn btn-danger" (click)="deleteCartItem(CartItem.id)">
+            <span class="material-symbols-outlined">
+              delete
+            </span>
+          </button>
+        </div>
       </div>
-      <div class="right">
-        <button class="btn btn-danger" (click)="deleteCartItem(CartItem.id)">
-          <span class="material-symbols-outlined">
-            delete
-          </span>
-        </button>
-      </div>
+        <div *ngIf="deletedItems.includes(CartItem.id)" class="card-footer text-muted" style="color: red !important;">
+          Deleted
+        </div>
     </div>
-      <div *ngIf="deletedItems.includes(CartItem.id)" class="label-eliminato">
-        Deleted
-      </div>
   </div>
 </div>
+
+<ng-template #emptyCart>
+  <div class="text-muted text-center mt-3" style="font-size: 20px;">
+    Empty Cart
+    <br/>
+    <span class="material-symbols-outlined">
+      shopping_cart
+    </span>
+  </div>
+</ng-template>
 

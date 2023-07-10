@@ -10,7 +10,7 @@ export class DiscountAmountPipe implements PipeTransform {
 
   transform(value: number): unknown {
     const currencyString = this.currencyPipe.transform(value, '', '');
-    return value ? `(-${currencyString})` : '';
+    return value ? `(-${currencyString} €)` : '';
   }
 
 }

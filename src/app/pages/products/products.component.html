@@ -1,7 +1,12 @@
 <head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,0,200" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
 <div class="container-fluid mt-5">
+  <h1 style="font-family: 'Bebas Neue', sans-serif; font-size: 48px; text-align: center;">ItsCart_Dani01_cs</h1>
   <div class="row">
     <div class="col">
         <app-product-filters [filters]="(filters$ | async)??{}" (filtersChange)="filtersChanged($event)"></app-product-filters>
@@ -25,7 +30,7 @@
                   </span>
                 </button>
               </div>
-                <div *ngIf="addedItem.includes(product.id)" class="item-added-label">
+                <div *ngIf="addedItem.includes(product.id)" class="card-footer text-muted" style="color: green !important;">
                   Added to your Cart
                 </div>
             </div>

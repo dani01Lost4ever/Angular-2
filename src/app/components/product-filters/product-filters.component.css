@@ -3,6 +3,7 @@ button {
   border: solid 2px black;
   padding: .375em 1.125em;
   font-size: 1rem;
+  width: 400px;
 }
 
 .button-arounder {
@@ -42,3 +43,8 @@ button {
 }
 
 
+.form-border {
+  border: 2px solid #cccccc7e;
+  padding: 20px;
+  border-radius: 15px;
+}
