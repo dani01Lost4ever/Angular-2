@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ProductFilters, ProductService } from 'src/app/services/product.service';
 import { getDiscountAmount, getDiscountedPrice } from '../../../utils/cart-utils';
 import { Product } from '../../interfaces/product';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { BehaviorSubject, Subject, catchError, combineLatest, filter, map, of, startWith, switchMap, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, catchError, combineLatest, delay, filter, map, of, startWith, switchMap, take, takeUntil, tap, timer } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { omitBy, pick } from 'lodash';
+import { AddItemToCart } from '../../services/product.service';
 
 
 @Component({
@@ -14,8 +15,11 @@ import { omitBy, pick } from 'lodash';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent {
-
-
+  quantity: number=0;
+  addedItem: string[] = [];
+  showItemAddedLabel: boolean = false;
+  constructor(private productSrv: ProductService, private fb: FormBuilder , private router: Router, private activatedRoute: ActivatedRoute) {  }
+  @ViewChild('quantityInput') quantityInput!: ElementRef<HTMLInputElement>;
   private applyFilters$= new Subject<ProductFilters>();
   filters$=this.activatedRoute.queryParams.pipe(
     map(params => pick(params, ['name','minPrice','maxPrice'])),
@@ -67,7 +71,6 @@ export class ProductsComponent {
   //products$= this.filters$.pipe(startWith({}),switchMap(filters=> {return this.productSrv.list(filters).pipe(catchError(err=>of([])))}));
 
   private destryed$= new Subject<void>();
-  constructor(private productSrv: ProductService, private fb: FormBuilder , private router: Router, private activatedRoute: ActivatedRoute) {  }
 
   ngOnInit(): void {
     this.applyFilters$.pipe(
@@ -92,5 +95,27 @@ export class ProductsComponent {
 
   getDiscoutedPrice(product: Product){
     return getDiscountedPrice(product.netPrice, product.discount);
+  }
+
+  updateQuantity(event: Event): void{
+    const inputElement = event.target as HTMLInputElement;
+    this.quantity = Number(inputElement.value);
+    console.log("Quantity: ", this.quantity);
+  }
+
+  addItemToCart(id: string){
+    this.productSrv.addToCart(id, this.quantity).subscribe(() => {
+      this.addedItem.push(id);
+      timer(2000)
+        .pipe(take(1))
+        .subscribe(() => {
+          this.addedItem = this.addedItem.filter(itemId => itemId !== id);
+          this.products$ = this.products$.pipe(
+            take(1),
+            map((product) => product.filter(item => !this.addedItem.includes(item.id)))
+          );
+        });
+    });
+    this.quantity=0;
   }
 }

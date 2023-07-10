@@ -9,6 +9,10 @@ export interface ProductFilters{
   minPrice?: number|null,
   maxPrice?: number|null
 }
+export interface AddItemToCart{
+  id: string;
+  quantity: number;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -25,5 +29,9 @@ export class ProductService {
     return this.list(filters).pipe(
       map(products => products.length)
     );
+  }
+
+  addToCart(productId:string, quantity: number){
+    return this.http.post<AddItemToCart>("/api/cart-items", {productId, quantity});
   }
 }

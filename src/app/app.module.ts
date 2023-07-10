@@ -15,6 +15,7 @@ import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ProductsComponent } from './pages/products/products.component';
 import { ProductFiltersComponent } from './components/product-filters/product-filters.component';
+import { SideCartComponent } from './components/side-cart/side-cart.component';
 registerLocaleData(localeIt);
 
 @NgModule({
@@ -25,7 +26,8 @@ registerLocaleData(localeIt);
     DiscountAmountPipe,
     CheckoutComponent,
     ProductsComponent,
-    ProductFiltersComponent
+    ProductFiltersComponent,
+    SideCartComponent
   ],
   imports: [
     BrowserModule,
