@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Return to Homepage?</h1>
+<div mat-dialog-content>
+  Payment data will be lost!
+</div>
+<div mat-dialog-actions class="justify-content-center">
+  <button mat-button mat-dialog-close class="btn btn-success" [mat-dialog-close]="true" (click)="onYesClick()">Yes</button>
+  <button mat-button mat-dialog-close class="btn btn-danger" cdkFocusInitial [mat-dialog-close]="false" >No</button>
+</div>

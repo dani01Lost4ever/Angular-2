@@ -1,0 +1,16 @@
+
+
+button{
+  width: 50px;
+  height: 50px;
+  padding: 6px 0px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.42857;
+  background-color: rgba(105, 104, 104, 0.219);
+  border-width: 2px;
+}
+
+
+

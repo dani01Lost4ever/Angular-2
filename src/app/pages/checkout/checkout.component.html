@@ -1,9 +1,13 @@
+<head >
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,0,200" />
+</head>
 <body>
+  <app-back-dialog-button></app-back-dialog-button>
   <div class='container'>
     <div class='window'>
       <div class='order-info'>
         <div class='order-info-content'>
-          <h2>Order Summary</h2>
+            <h2>Order Summary</h2>
             <div class='line'></div>
             <ul class="list-group" id="items-list">
               <li class="list-group-item item" *ngFor="let item of items$ | async; trackBy: trackById">
@@ -36,16 +40,16 @@
           </table>
           <img src='https://dl.dropboxusercontent.com/s/ubamyu6mzov5c80/visa_logo%20%281%29.png' height='80' class='credit-card-image' id='credit-card-image'>
           Card Number
-          <input class='input-field'>
+          <input placeholder="1234 5678 9123 5647" class='input-field'>
           Card Holder
-          <input class='input-field'>
+          <input placeholder="Mario Rossi" class='input-field'>
           <table class='half-input-table'>
             <tr>
               <td> Expires
-                <input class='input-field'>
+                <input placeholder="01/01" class='input-field'>
               </td>
               <td>CVC
-                <input class='input-field'>
+                <input maxlength="3" placeholder="123" class='input-field'>
               </td>
             </tr>
           </table>

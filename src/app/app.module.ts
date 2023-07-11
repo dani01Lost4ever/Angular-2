@@ -16,6 +16,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { ProductsComponent } from './pages/products/products.component';
 import { ProductFiltersComponent } from './components/product-filters/product-filters.component';
 import { SideCartComponent } from './components/side-cart/side-cart.component';
+import { BackDialogButtonComponent } from './components/back-dialog-button/back-dialog-button.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BackDialogComponent } from './components/back-dialog/back-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 registerLocaleData(localeIt);
 
 @NgModule({
@@ -27,7 +31,9 @@ registerLocaleData(localeIt);
     CheckoutComponent,
     ProductsComponent,
     ProductFiltersComponent,
-    SideCartComponent
+    SideCartComponent,
+    BackDialogButtonComponent,
+    BackDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +41,9 @@ registerLocaleData(localeIt);
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
   ],
   providers: [
    { provide: LOCALE_ID, useValue: 'it-IT' },

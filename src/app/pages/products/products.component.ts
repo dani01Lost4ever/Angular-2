@@ -5,7 +5,7 @@ import { Product } from '../../interfaces/product';
 import { FormBuilder } from '@angular/forms';
 import { BehaviorSubject, Subject, catchError, combineLatest, map, of, switchMap, take, takeUntil, tap, timer } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { omitBy, pick } from 'lodash';
+import { omitBy, pick, result } from 'lodash';
 import { SideCartService } from 'src/app/services/side-cart.service';
 import { SideCartUpdateService } from 'src/app/services/side-cart-update.service';
 
@@ -15,8 +15,8 @@ import { SideCartUpdateService } from 'src/app/services/side-cart-update.service
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit, OnDestroy{
-  quantity: number=0;
-  addedItem: string[] = [];
+  public quantity: number=0;
+  public addedItem: string[] = [];
   showItemAddedLabel: boolean = false;
   constructor(private productSrv: ProductService, private fb: FormBuilder , private router: Router, private activatedRoute: ActivatedRoute, private cartUpdateService: SideCartUpdateService) {  }
   @ViewChild('quantityInput') quantityInput!: ElementRef<HTMLInputElement>;
