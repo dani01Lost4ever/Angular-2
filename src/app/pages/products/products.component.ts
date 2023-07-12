@@ -8,17 +8,27 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { omitBy, pick, result } from 'lodash';
 import { SideCartService } from 'src/app/services/side-cart.service';
 import { SideCartUpdateService } from 'src/app/services/side-cart-update.service';
+import { CartSourceService } from 'src/app/services/cart-source.service';
+import { transition, trigger, useAnimation } from '@angular/animations';
+import { bounce, bounceIn, pulse } from 'ng-animate';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  styleUrls: ['./products.component.css'],
+  animations: [
+    trigger('bounceIn', [transition('* => *', useAnimation(bounceIn))]),
+    trigger('pulse', [transition('* => *', useAnimation(pulse))]),
+  ]
 })
+
+
 export class ProductsComponent implements OnInit, OnDestroy{
+  pulseState = '';
   public quantity: number=0;
   public addedItem: string[] = [];
   showItemAddedLabel: boolean = false;
-  constructor(private productSrv: ProductService, private fb: FormBuilder , private router: Router, private activatedRoute: ActivatedRoute, private cartUpdateService: SideCartUpdateService) {  }
+  constructor(private productSrv: ProductService, private fb: FormBuilder , private router: Router, private activatedRoute: ActivatedRoute, private cartUpdateService: SideCartUpdateService, private cartSource: CartSourceService) {  }
   @ViewChild('quantityInput') quantityInput!: ElementRef<HTMLInputElement>;
   private applyFilters$= new Subject<ProductFilters>();
   filters$=this.activatedRoute.queryParams.pipe(
@@ -35,10 +45,11 @@ export class ProductsComponent implements OnInit, OnDestroy{
   itemsPerPage = 24;
   // Combine filters$ and currentPage$ observables
   combined$ = combineLatest([this.filters$, this.currentPage$]);
-  // Update the products$ observable using combined$ observable
+  // Update the products$ observable using combined$ observablex
   products$ = this.combined$.pipe(
     switchMap(([filters, currentPage]) =>
       this.productSrv.list(filters).pipe(
+        map(products => products.map(p=>({...p, quantity: 1}))),
         map(products => {
           const startIndex = (currentPage - 1) * this.itemsPerPage;
           const endIndex = startIndex + this.itemsPerPage;
@@ -65,6 +76,7 @@ export class ProductsComponent implements OnInit, OnDestroy{
         if (currentPage < totalPages) {
           this.currentPage$.next(currentPage + 1);
         }
+        console.log('test')
       });
     });
   }
@@ -73,8 +85,12 @@ export class ProductsComponent implements OnInit, OnDestroy{
   private destryed$= new Subject<void>();
 
   ngOnInit(): void {
-    this.applyFilters$.pipe(
-        takeUntil(this.destryed$), map(value=>omitBy(value, val=>val==='')))
+    this.pulseState='';
+    this.applyFilters$
+        .pipe(
+          takeUntil(this.destryed$),
+          map(value=>omitBy(value, val=>val===''))
+        )
         .subscribe(filters=>
             {this.router.navigate([], {queryParams: filters});
         }
@@ -102,20 +118,15 @@ export class ProductsComponent implements OnInit, OnDestroy{
     this.quantity = Number(inputElement.value);
   }
 
-  addItemToCart(id: string){
-    this.productSrv.addToCart(id, this.quantity).subscribe(() => {
+  addItemToCart(id: string, quantity: number){
+    this.cartSource.addToCart(id, quantity).subscribe(() => {
       this.addedItem.push(id);
       timer(1000)
         .pipe(take(1))
         .subscribe(() => {
           this.addedItem = this.addedItem.filter(itemId => itemId !== id);
-          this.products$ = this.products$.pipe(
-            take(1),
-            map((product) => product.filter(item => !this.addedItem.includes(item.id)))
-          );
+          this.pulseState = this.pulseState === 'start' ? '' : 'start';
         });
     });
-    this.cartUpdateService.notifyCartUpdated();
-    this.quantity=0;
   }
 }

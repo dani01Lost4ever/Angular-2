@@ -44,6 +44,7 @@ registerLocaleData(localeIt);
     AppRoutingModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    BrowserAnimationsModule,
   ],
   providers: [
    { provide: LOCALE_ID, useValue: 'it-IT' },

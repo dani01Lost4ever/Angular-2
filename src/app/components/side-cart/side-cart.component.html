@@ -4,7 +4,7 @@
 </head>
 <div *ngIf="(cartItems$ | async)?.length; else emptyCart">
   <button type="button" class="btn btn-success" style="width: 100%;" (click)="goToCheckout()">Checkout</button>
-  <div *ngFor="let CartItem of cartItems$ | async">
+  <div class="side-element" *ngFor="let CartItem of cartItems$ | async" [@fadeAnimation]>
     <div class="card mt-2">
       <div class="card-body d-flex justify-content-between">
         <div class="left">
@@ -19,7 +19,7 @@
           </button>
         </div>
       </div>
-        <div *ngIf="deletedItems.includes(CartItem.id)" class="card-footer text-muted" style="color: red !important;">
+        <div class="card-footer text-muted" style="color: red !important;">
           Deleted
         </div>
     </div>

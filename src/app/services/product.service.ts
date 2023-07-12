@@ -31,7 +31,5 @@ export class ProductService {
     );
   }
 
-  addToCart(productId:string, quantity: number){
-    return this.http.post<AddItemToCart>("/api/cart-items", {productId, quantity});
-  }
+
 }
