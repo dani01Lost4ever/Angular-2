@@ -49,6 +49,7 @@ export class CartSourceService {
         })
       )
   }
+  
   deleteFromCart(itemId: string) {
     return this.http.delete<CartItem>("/api/cart-items/" + itemId)
       .pipe(

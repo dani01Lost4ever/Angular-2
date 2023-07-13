@@ -7,6 +7,7 @@ export const DEFAULT_VAT = new InjectionToken<number>('DEFAULT_VAT');
   providedIn: 'root'
 })
 export class VatService {
+  
   private _vat$ = new ReplaySubject<number>();
   vat$ = this._vat$.asObservable();
 

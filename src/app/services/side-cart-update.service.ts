@@ -16,6 +16,6 @@ export class SideCartUpdateService {
       .pipe(delay(100))
       .subscribe(() => {
         this.cartUpdatedSource.next();
-      });
+    });
   }
 }

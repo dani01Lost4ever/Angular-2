@@ -8,6 +8,7 @@ import { getDiscountedPrice, getFinalPrice, getTransportFee, getVatAmount } from
   styleUrls: ['./summary.component.css']
 })
 export class SummaryComponent implements OnChanges {
+
   protected _items: CartItem[] = [];
 
   @Input()
@@ -21,8 +22,7 @@ export class SummaryComponent implements OnChanges {
     this._items = value;
   }
 
-  @Input()
-  vat = 0;
+  @Input() vat = 0;
 
   summary = this.updateSummary();
 

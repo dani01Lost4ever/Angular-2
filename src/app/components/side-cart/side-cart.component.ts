@@ -33,14 +33,14 @@ import { getDiscountedPrice } from 'src/utils/cart-utils';
     ])
   ]
 })
+
 export class SideCartComponent {
   cartItems$= this.cartSS.items$;
   deletedItems: string[] = [];
-  constructor(private sideCartService: SideCartService, private cartUpdateService: SideCartUpdateService, private router: Router, private cartSS: CartSourceService) {  }
 
-  // private getCart(): Observable<CartItem[]> {
-  //   return this.sideCartService.list();
-  // }
+  constructor(private sideCartService: SideCartService,
+             private cartUpdateService: SideCartUpdateService,
+             private router: Router, private cartSS: CartSourceService) {  }
 
   getPrice(product: Product, quantity: number){
     return getDiscountedPrice(product.netPrice, product.discount)*quantity;
@@ -55,7 +55,7 @@ export class SideCartComponent {
         .subscribe(() => {
           console.log("delete", this.deletedItems)
           this.deletedItems = this.deletedItems.filter(itemId => itemId !== id);
-          });
+        });
     });
   }
 

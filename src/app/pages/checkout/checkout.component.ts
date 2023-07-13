@@ -11,23 +11,23 @@ import { VatService } from 'src/app/services/vat.service';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit, OnDestroy{
+
   items$ = this.cartService.items$;
   vat$ = this.vatService.vat$;
   private updateQuantity$= new Subject<{id: string, quantity: number}>();
   private destryed$ = new Subject<void>();
 
   constructor(private cartService: CartSourceService,
-              private vatService: VatService) {
-  }
+              private vatService: VatService) {  }
 
   ngOnInit(): void {
     this.cartService.fetch();
     let country = 'IT';
-
     this.updateQuantity$.pipe(
       debounceTime(200)
     ).subscribe(data=>this.cartService.setQuantity(data.id, data.quantity));
   }
+
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
@@ -42,10 +42,5 @@ export class CheckoutComponent implements OnInit, OnDestroy{
 
   trackById(_: number, item: CartItem) {
     return item.id;
-  }
-
-  ReturnButton()
-  {
-    
   }
 }

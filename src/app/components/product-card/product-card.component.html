@@ -6,16 +6,16 @@
     <a href="https://github.com/dani01Lost4ever" class="btn btn-link">details</a>
   </div>
   <div class="input-group mb-3" style="padding: 20px;">
-    <input type="number" class="form-control" min="1" pattern="[0-9]*" [(ngModel)]="product.quantity"  placeholder="Quantity" aria-label="Recipient's username" aria-describedby="basic-addon2">
+    <input type="number" class="form-control" min="1" pattern="[0-9]*" [(ngModel)]="quantity"  placeholder="Quantity" aria-label="Recipient's username" aria-describedby="basic-addon2">
     <div class="input-group-append">
-      <button type="button"  (click)="addItemToCart(product.id, product.quantity)" class="btn btn-outline-dark buttonAdd" >
+      <button type="button"  (click)="addItemToCart(product.id, quantity)" class="btn btn-outline-dark buttonAdd" >
         <span class="material-symbols-outlined">
             add_shopping_cart
         </span>
       </button>
     </div>
-      <!-- <div *ngIf="addedItem.includes(product.id)" class="card-footer text-muted" style="color: green !important;">
+      <div *ngIf="showAdded" class="card-footer text-muted" style="color: green !important;">
         Added to your Cart
-      </div> -->
+      </div>
   </div>
 </div>

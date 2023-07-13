@@ -17,6 +17,7 @@ export class SideCartService {
   delete(id: string) {
     return this.http.delete(`/api/cart-items/${ id }`);
   }
+  
   pushNav() {
     return this.router.navigate(["/checkout"]);
   }

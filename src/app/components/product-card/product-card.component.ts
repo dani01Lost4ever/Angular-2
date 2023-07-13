@@ -16,20 +16,18 @@ export interface ProductCard extends Product{
 
 export class ProductCardComponent{
 
-  @Input()
-  product!: ProductCard;
-
+  @Input() quantity : number=1;
+  @Input() product!: Product;
+  @Input() showAdded = false;
   @Output() addToCartEvent = new EventEmitter<{ productId: string; quantity: number }>();
 
-  addedItem: string[] = [];
 
-  getDiscoutedPrice(product: ProductCard){
+  getDiscoutedPrice(product: Product){
     return getDiscountedPrice(product.netPrice, product.discount);
   }
 
   addItemToCart(id: string, quantity: number) {
     this.addToCartEvent.emit({ productId: id, quantity: quantity });
-    this.addedItem.push(id);
   }
 
 }

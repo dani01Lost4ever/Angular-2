@@ -17,14 +17,11 @@ export class ProductFiltersComponent implements OnInit, OnDestroy{
     maxPrice: this.fb.control<number|null>(null,{updateOn: 'submit',validators:[Validators.max(100000)]}),
   })
 
-  @Output()
-  filtersChange= new EventEmitter<ProductFilters>();
-  
-  @Input()
-  set filters(value: ProductFilters){
-
+  @Output() filtersChange= new EventEmitter<ProductFilters>();
+  @Input() set filters(value: ProductFilters){
     this.filtersForm.patchValue(value);
   }
+  
   private destroyed$ = new Subject<void>();
 
   ngOnInit(): void {

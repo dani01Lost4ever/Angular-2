@@ -28,11 +28,11 @@ export class ProductsComponent implements OnInit, OnDestroy{
   public quantity: number=0;
   public addedItem: string[] = [];
   showItemAddedLabel: boolean = false;
+  itemsPerPage = 24;
+  private destryed$= new Subject<void>();
+  @ViewChild('quantityInput') quantityInput!: ElementRef<HTMLInputElement>
 
   constructor(private productSrv: ProductService, private fb: FormBuilder , private router: Router, private activatedRoute: ActivatedRoute, private cartUpdateService: SideCartUpdateService, private cartSource: CartSourceService) {  }
-
-  @ViewChild('quantityInput') quantityInput!: ElementRef<HTMLInputElement>;
-  @Output() AddedItem = new EventEmitter<string[]>();
 
   private applyFilters$= new Subject<ProductFilters>();
 
@@ -40,21 +40,21 @@ export class ProductsComponent implements OnInit, OnDestroy{
     map(params => pick(params, ['name','minPrice','maxPrice'])),
   );
 
-  // Create a BehaviorSubject to track the current page
+
   currentPage$ = new BehaviorSubject<number>(1);
   totalPages$ = this.filters$.pipe(
     switchMap(filters => this.productSrv.count(filters)),
     map(totalProducts => Math.ceil(totalProducts / this.itemsPerPage)),
-    catchError(() => of(0)) // Handle error gracefully
+    catchError(() => of(0))
   );
-  itemsPerPage = 24;
-  // Combine filters$ and currentPage$ observables
+
+
   combined$ = combineLatest([this.filters$, this.currentPage$]);
-  // Update the products$ observable using combined$ observablex
+
   products$ = this.combined$.pipe(
     switchMap(([filters, currentPage]) =>
       this.productSrv.list(filters).pipe(
-        map(products => products.map(p=>({...p, quantity: 1}))),
+        //map(products => products.map(p=>({...p, quantity: 1}))),
         map(products => {
           const startIndex = (currentPage - 1) * this.itemsPerPage;
           const endIndex = startIndex + this.itemsPerPage;
@@ -65,12 +65,12 @@ export class ProductsComponent implements OnInit, OnDestroy{
     )
   );
 
-  // Add the previousPage() and nextPage() methods
   previousPage() {
     if (this.currentPage$.value > 1) {
       this.currentPage$.next(this.currentPage$.value - 1);
     }
   }
+
   nextPage() {
     const itemsPerPage = this.itemsPerPage;
     const currentPage = this.currentPage$.value;
@@ -85,9 +85,8 @@ export class ProductsComponent implements OnInit, OnDestroy{
       });
     });
   }
-  //products$= this.filters$.pipe(startWith({}),switchMap(filters=> {return this.productSrv.list(filters).pipe(catchError(err=>of([])))}));
 
-  private destryed$= new Subject<void>();
+
 
   ngOnInit(): void {
     this.pulseState='';
@@ -111,7 +110,6 @@ export class ProductsComponent implements OnInit, OnDestroy{
   filtersChanged(value: ProductFilters){
     this.currentPage$.next(1);
     this.applyFilters$.next(value);
-
   }
 
   getDiscoutedPrice(product: Product){
@@ -123,14 +121,14 @@ export class ProductsComponent implements OnInit, OnDestroy{
     this.quantity = Number(inputElement.value);
   }
 
-  addItemToCart(id: string, quantity: number){
-    this.cartSource.addToCart(id, quantity).subscribe(() => {
-      this.addedItem.push(id);
+  addItemToCart(event: { productId: string; quantity: number }){
+    const { productId, quantity } = event;
+    this.cartSource.addToCart(productId, quantity).subscribe(() => {
+      this.addedItem.push(productId);
       timer(1000)
         .pipe(take(1))
         .subscribe(() => {
-          this.addedItem = this.addedItem.filter(itemId => itemId !== id);
-          this.AddedItem.emit( this.addedItem );
+          this.addedItem = this.addedItem.filter(itemId => itemId !== productId);
         });
     });
   }

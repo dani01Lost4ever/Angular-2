@@ -9,14 +9,9 @@ import { getDiscountAmount, getDiscountedPrice, getFinalPrice } from 'src/utils/
 })
 export class CartItemComponent {
 
-  @Input()
-  item: CartItem | null = null;
-
-  @Input()
-  vat = 0;
-
-  @Output()
-  quantityChange = new EventEmitter<number>();
+  @Input() item: CartItem | null = null;
+  @Input() vat = 0;
+  @Output() quantityChange = new EventEmitter<number>();
 
   getItemPrice() {
     const discountedPrice = getDiscountedPrice(this.item!.product.netPrice, this.item!.product.discount);
