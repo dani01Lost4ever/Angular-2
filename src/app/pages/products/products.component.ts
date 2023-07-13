@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ProductFilters, ProductService } from 'src/app/services/product.service';
 import { getDiscountedPrice } from '../../../utils/cart-utils';
 import { Product } from '../../interfaces/product';
@@ -28,9 +28,14 @@ export class ProductsComponent implements OnInit, OnDestroy{
   public quantity: number=0;
   public addedItem: string[] = [];
   showItemAddedLabel: boolean = false;
+
   constructor(private productSrv: ProductService, private fb: FormBuilder , private router: Router, private activatedRoute: ActivatedRoute, private cartUpdateService: SideCartUpdateService, private cartSource: CartSourceService) {  }
+
   @ViewChild('quantityInput') quantityInput!: ElementRef<HTMLInputElement>;
+  @Output() AddedItem = new EventEmitter<string[]>();
+
   private applyFilters$= new Subject<ProductFilters>();
+
   filters$=this.activatedRoute.queryParams.pipe(
     map(params => pick(params, ['name','minPrice','maxPrice'])),
   );
@@ -125,7 +130,7 @@ export class ProductsComponent implements OnInit, OnDestroy{
         .pipe(take(1))
         .subscribe(() => {
           this.addedItem = this.addedItem.filter(itemId => itemId !== id);
-          this.pulseState = this.pulseState === 'start' ? '' : 'start';
+          this.AddedItem.emit( this.addedItem );
         });
     });
   }

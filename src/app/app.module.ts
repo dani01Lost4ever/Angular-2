@@ -20,6 +20,7 @@ import { BackDialogButtonComponent } from './components/back-dialog-button/back-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BackDialogComponent } from './components/back-dialog/back-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ProductCardComponent } from './components/product-card/product-card.component';
 registerLocaleData(localeIt);
 
 @NgModule({
@@ -34,6 +35,7 @@ registerLocaleData(localeIt);
     SideCartComponent,
     BackDialogButtonComponent,
     BackDialogComponent,
+    ProductCardComponent,
   ],
   imports: [
     BrowserModule,

@@ -21,15 +21,22 @@ import { getDiscountedPrice } from 'src/utils/cart-utils';
         style({ opacity: 1 }),
         animate('1.0s ease-out', style({ opacity: 0 }))
       ]),
+    ]),
+    trigger('blockExitAnimation', [
+      transition(':leave', [])
+    ]),
+    trigger('enterAnimation', [
+      transition(':enter', [
+        style({ opacity: 1 }),
+        animate('1.5s ease-in-out', style({ opacity: 0 }))
+      ]),
     ])
   ]
 })
 export class SideCartComponent {
-  bounce: any;
   cartItems$= this.cartSS.items$;
   deletedItems: string[] = [];
   constructor(private sideCartService: SideCartService, private cartUpdateService: SideCartUpdateService, private router: Router, private cartSS: CartSourceService) {  }
-
 
   // private getCart(): Observable<CartItem[]> {
   //   return this.sideCartService.list();
@@ -42,6 +49,7 @@ export class SideCartComponent {
   deleteCartItem(id: string): void {
     this.cartSS.deleteFromCart(id).subscribe(() => {
       this.deletedItems.push(id);
+      //this.deleteClicked = true;
       timer(1000)
         .pipe(take(1))
         .subscribe(() => {

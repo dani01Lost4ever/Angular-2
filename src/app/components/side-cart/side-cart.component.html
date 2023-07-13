@@ -2,9 +2,9 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,0,200" />
 </head>
-<div *ngIf="(cartItems$ | async)?.length; else emptyCart">
+<div *ngIf="(cartItems$ | async)?.length; else emptyCart" @blockExitAnimation>
   <button type="button" class="btn btn-success" style="width: 100%;" (click)="goToCheckout()">Checkout</button>
-  <div class="side-element" *ngFor="let CartItem of cartItems$ | async" [@fadeAnimation]>
+  <div class="side-element" *ngFor="let CartItem of cartItems$ | async" [@fadeAnimation] [@enterAnimation]>
     <div class="card mt-2">
       <div class="card-body d-flex justify-content-between">
         <div class="left">
@@ -12,7 +12,7 @@
           <h6 class="card-subtitle mb-2 text-muted">x{{CartItem.quantity}} Total: {{getPrice(CartItem.product, CartItem.quantity).toFixed(2) | currency}}</h6>
         </div>
         <div class="right">
-          <button class="btn btn-danger" (click)="deleteCartItem(CartItem.id)">
+          <button class="btn btn-danger" (click)="deleteCartItem(CartItem.id)" >
             <span class="material-symbols-outlined">
               delete
             </span>
