@@ -1,0 +1,9 @@
+﻿{
+  "agentId": 2,
+  "agentName": "NIUKOITS_04",
+  "poolId": 1,
+  "poolName": "Default",
+  "serverUrl": "https://pipelines.actions.githubusercontent.com/DvMWFS7J4IzhhtJ7gbKRwXKHmz86vKP775zyRq9gPrdyvvX9ax",
+  "gitHubUrl": "https://github.com/dani01Lost4ever/Angular-2",
+  "workFolder": "_work"
+}
