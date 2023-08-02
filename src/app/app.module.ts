@@ -6,7 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CartItemComponent } from './components/cart-item/cart-item.component';
 import { SummaryComponent } from './components/summary/summary.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DiscountAmountPipe } from './pipes/discount-amount.pipe';
 import { CurrencyPipe, registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
@@ -21,9 +21,24 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BackDialogComponent } from './components/back-dialog/back-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ProductCardComponent } from './components/product-card/product-card.component';
+import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { LoginComponent } from './pages/login/login.component';
+import { NavUserComponent } from './components/nav-user/nav-user.component';
+import { IfAuthenticatedDirective } from './directives/if-authenticated.directive';
 registerLocaleData(localeIt);
 
 @NgModule({
+  imports: [
+    BrowserModule,
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    BrowserAnimationsModule,
+  ],
   declarations: [
     AppComponent,
     CartItemComponent,
@@ -36,24 +51,17 @@ registerLocaleData(localeIt);
     BackDialogButtonComponent,
     BackDialogComponent,
     ProductCardComponent,
-  ],
-  imports: [
-    BrowserModule,
-    NgbModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatDialogModule,
-    BrowserAnimationsModule,
+    LoginComponent,
+    NavUserComponent,
+    IfAuthenticatedDirective,
   ],
   providers: [
-   { provide: LOCALE_ID, useValue: 'it-IT' },
-   { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR'},
-   { provide: DEFAULT_VAT, useValue: 0.10},
-   CurrencyPipe
+    { provide: LOCALE_ID, useValue: 'it-IT' },
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' },
+    { provide: DEFAULT_VAT, useValue: 0.1 },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    CurrencyPipe,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

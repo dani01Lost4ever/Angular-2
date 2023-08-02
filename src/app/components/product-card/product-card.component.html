@@ -1,21 +1,43 @@
-<div class="card mt-2" style="height: 340px !important;">
+<div class="card mt-2" style="height: 340px !important">
   <div class="card-body">
-    <h5 class="card-title">{{product.name}}</h5>
-    <h6 class="card-subtitle mb-2 text-muted"><del>{{product.netPrice | currency}}</del> -{{(product.discount*100).toFixed(0)}}% {{getDiscoutedPrice(product) | currency}}</h6>
-    <p class="card-text">{{product.description}}</p>
-    <a href="https://github.com/dani01Lost4ever" class="btn btn-link">details</a>
+    <h5 class="card-title">{{ product.name }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">
+      <del>{{ product.netPrice | currency }}</del> -{{
+        (product.discount * 100).toFixed(0)
+      }}% {{ getDiscoutedPrice(product) | currency }}
+    </h6>
+    <p class="card-text">{{ product.description }}</p>
+    <a href="https://github.com/dani01Lost4ever" class="btn btn-link"
+      >details</a
+    >
   </div>
-  <div class="input-group mb-3" style="padding: 20px;">
-    <input type="number" class="form-control" min="1" pattern="[0-9]*" [(ngModel)]="quantity"  placeholder="Quantity" aria-label="Recipient's username" aria-describedby="basic-addon2" required="true">
+  <div class="input-group mb-3" style="padding: 20px" *ifAuthenticated>
+    <input
+      type="number"
+      class="form-control"
+      min="1"
+      pattern="[0-9]*"
+      [(ngModel)]="quantity"
+      placeholder="Quantity"
+      aria-label="Recipient's username"
+      aria-describedby="basic-addon2"
+      required="true"
+    />
     <div class="input-group-append">
-      <button type="button"  (click)="addItemToCart(product.id, quantity)" class="btn btn-outline-dark buttonAdd" >
-        <span class="material-symbols-outlined">
-            add_shopping_cart
-        </span>
+      <button
+        type="button"
+        (click)="addItemToCart(product.id, quantity)"
+        class="btn btn-outline-dark buttonAdd"
+      >
+        <span class="material-symbols-outlined"> add_shopping_cart </span>
       </button>
     </div>
-      <div *ngIf="showAdded" class="card-footer text-muted" style="color: green !important;">
-        Added to your Cart
-      </div>
+    <div
+      *ngIf="showAdded"
+      class="card-footer text-muted"
+      style="color: green !important"
+    >
+      Added to your Cart
+    </div>
   </div>
 </div>
