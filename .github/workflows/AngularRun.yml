@@ -2,9 +2,9 @@ name: AngularRun
 
 on:
   push:
-    branches: ["CartApiComplete"]
+    branches: ["AngularAPI"]
   pull_request:
-    branches: ["CartApiComplete"]
+    branches: ["AngularAPI"]
 
 jobs:
   build:
