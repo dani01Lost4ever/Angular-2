@@ -1,4 +1,4 @@
-name: Node.js CI
+name: AngularRun
 
 on:
   push:
@@ -24,4 +24,3 @@ jobs:
           cache: "npm"
       - run: npm install
       - run: ng serve
-#test
